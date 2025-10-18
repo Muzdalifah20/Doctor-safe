@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "accounts",
     "doctors",
     'rest_framework',
+    'reviews',
+    'contacts',
 ]
 
 MIDDLEWARE = [
