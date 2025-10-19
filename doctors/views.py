@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from rest_framework import viewsets,permissions
- 
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import DepartmentSerializer, DoctorSerializer
 from .models import Department, Doctor
 
@@ -13,4 +13,6 @@ class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     permission_classes = [permissions.DjangoModelPermissionsOrAnonReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['specialization']
 

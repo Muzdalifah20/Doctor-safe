@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'reviews',
     'contacts',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGOUT_REDIRECT_URL = "home"
 LOGIN_REDIRECT_URL = "home"
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
