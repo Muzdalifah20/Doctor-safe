@@ -10,9 +10,16 @@ from django.views.decorators.cache import cache_control
 from django.utils.decorators import method_decorator
 
 class RegisterView(APIView):
+    """
+    API endpoint for registering a new user.
+    Allows any user to access.
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """
+        Registers a new user and returns their profile and auth token.
+        """
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -24,9 +31,16 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
+    """
+    API endpoint for user login.
+    Allows any user to access.
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """
+        Authenticates a user and returns an auth token and profile data.
+        """
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data.get('username')
@@ -44,19 +58,32 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
+    """
+    API endpoint to logout a user by deleting their auth token.
+    Requires authentication.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        
+        """
+        Deletes the user's authentication token (logs them out).
+        """
         request.user.auth_token.delete()
         return Response({"message": "Logged out successfully."}, status=status.HTTP_200_OK)
 
 @method_decorator(cache_control(no_cache=True, must_revalidate=True, no_store=True), name='dispatch')
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint to retrieve, update or delete the authenticated user's profile.
+    Requires authentication.
+    """
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
+        """
+        Returns the current authenticated user instance.
+        """
         return self.request.user
 
  
