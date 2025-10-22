@@ -5,9 +5,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserSerializer
 from django.contrib.auth import authenticate
-
 from .models import CustomUser
-
+from django.views.decorators.cache import cache_control
+from django.utils.decorators import method_decorator
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -51,6 +51,7 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         return Response({"message": "Logged out successfully."}, status=status.HTTP_200_OK)
 
+@method_decorator(cache_control(no_cache=True, must_revalidate=True, no_store=True), name='dispatch')
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
