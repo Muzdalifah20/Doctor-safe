@@ -2,7 +2,10 @@ from django.db import models
 from django.conf import settings
 
 class ContactRequest(models.Model):
-
+    """
+    Model representing a contact request sent by a user to a doctor.
+    Tracks request details and approval status.
+    """
     PENDING = 'pending'
     APPROVED = 'approved'
     REJECTED = 'rejected'
@@ -20,4 +23,8 @@ class ContactRequest(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        """
+        String representation showing the user, doctor name and request status.
+        """
+
         return f'ContactRequest from {self.user} to {self.doctor_name} - {self.status}'
