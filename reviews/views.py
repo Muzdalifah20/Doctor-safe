@@ -21,4 +21,5 @@ class ReviewListCreateView(generics.ListCreateAPIView):
         """
         Saves the review with the authenticated user as the author.
         """
-        serializer.save(user=self.request.user)
+        doctor_id = self.kwargs.get("doctor_id")
+        serializer.save(user=self.request.user, doctor_id=doctor_id)
