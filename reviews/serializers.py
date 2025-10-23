@@ -18,6 +18,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'doctor', 'rating', 'comment', 'timestamp']
         read_only_fields = ['id', 'user', 'doctor', 'timestamp']
 
-    def create(self, validated_data):
-        user = self.context['request'].user
-        return Review.objects.create(user=user, **validated_data)
+    
