@@ -7,7 +7,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     The user field is read-only and represented as string.
     """
     user = serializers.StringRelatedField(read_only=True)
-    doctor = serializers.PrimaryKeyRelatedField(queryset=Doctor.objects.all())
+    doctor = serializers.PrimaryKeyRelatedField(read_only=True)
 
 
     class Meta:
@@ -16,7 +16,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         """
         model = Review
         fields = ['id', 'user', 'doctor', 'rating', 'comment', 'timestamp']
-        read_only_fields = ['id', 'user', 'timestamp']
+        read_only_fields = ['id', 'user', 'doctor', 'timestamp']
 
     def create(self, validated_data):
         user = self.context['request'].user
